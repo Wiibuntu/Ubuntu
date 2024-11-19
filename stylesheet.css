@@ -1,0 +1,129 @@
+/*Fonts Used*/
+@import url('https://fonts.googleapis.com/css?family=Questrial&display=swap');
+
+:root{
+    --color-light: #fff;
+    --center-horizontal: translateY(-50%);
+}
+
+/* CSS reset */
+*, *:before, *:after { box-sizing: border-box; -moz-box-sizing: border-box; image-rendering: -webkit-optimize-contrast;}
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed,  figure, figcaption, footer, header, hgroup,  menu, nav, output, ruby, section, summary, time, mark, audio, video {margin: 0;padding: 0;border: 0;font-size: 100%;font: inherit;vertical-align: baseline; -webkit-text-size-adjust: 100%;}
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {display: block;}
+body {line-height: 1;}
+ul {list-style: none;}
+blockquote, q {quotes: none;}
+blockquote:before, blockquote:after,
+q:before, q:after {content: '';content: none;}
+table {border-collapse: collapse;border-spacing: 0;}
+button, html input[type=button], input[type=reset], input[type=submit] { -webkit-appearance: button; cursor: pointer; }
+input, textarea, select{-webkit-appearance: none;}
+mark {background-color: transparent;}
+em, i{font-style: italic;}
+strong , b{ font-weight: bold;}
+ul, h1, h2, h3, h4{ margin:0; padding:0; list-style:none;}
+img{max-width: 100%; vertical-align: top; image-rendering: -webkit-optimize-contrast;}
+iframe{ border: none; width: 100%;}
+
+/* IE 8 */
+.lt-ie8 .dang-ie{width:100%;height:100%;position:fixed;background-color:#00abdd}
+.message{text-align:center;color:#fff;font-size:20px;position:absolute;top:20%;left:0;right:0}
+.inner-message{position:relative;top:-20%;left:0;right:0;text-align:center;margin:auto}
+.inner-message img{position:relative;left:3em}
+.inner-message a.download{display:block;width:300px;padding:10px;color:#fff;margin:2em auto;border:1px solid #fff}
+.terms{color:#fff;font-size:13px;padding:20px;position:absolute;right:0;bottom:0}
+.terms a{color:#fff;font-weight:700}
+.lt-ie8 .protect-me{display:none}
+/* end CSS reset */
+
+/*preset*/
+body{font-size: 16px; line-height: 22px; font-family: 'Questrial', sans-serif; color:#1a1a1a;}
+a{text-decoration:none; -webkit-transition: all .3s linear;transition: all .3s linear; color: #1a1a1a;}
+
+.wrapcon{width: 1080px; max-width: 100%; position: relative; margin: 0 auto;}
+
+.clearfix:before, .clearfix:after { content:""; display: table; clear: both; }
+.clearfix {clear: both; overflow: hidden;}
+
+/* Form */
+textarea {resize:vertical; }
+input[type="submit"]{cursor: pointer;}
+
+/* Forms Presets */
+::-webkit-input-placeholder {opacity: 1; color: inherit;}
+::-moz-placeholder {opacity: 1; color: inherit;}
+:-ms-input-placeholder {opacity: 1; color: inherit;}
+:-moz-placeholder {opacity: 1; color: inherit;}
+
+header{ background: #1a1a1a;}
+header .container{min-height: 150px;}
+
+/* header logo */
+header .header_logo{color: #fff;
+    position: absolute; left: 10px; top: 50%; transform: var(--center-horizontal);
+    font-size: 40px; line-height: 100%;
+}
+
+/* header info */
+header .head_info{position: absolute; right: 10px; top: 50%; transform: var(--center-horizontal);}
+header .head_info h2{color: var(--color-light); text-align: end;}
+header .head_info h2 mark{color: var(--color-light); display: block; font-weight: bold;}
+
+#nav_area{min-height: 50px;}
+.main_nav{border-left: 10px solid #1a1a1a;}
+.main_nav ul{text-align: left;}
+.main_nav ul li{display: inline-block;}
+.main_nav ul li a{color: #1a1a1a; font-size: 18px; padding: 0 15px; line-height: 50px;}
+
+.main_nav ul li.active_tab a{font-weight: bold; text-decoration: underline;}
+.main_nav ul li a:hover{font-weight: bold; text-decoration: underline;}
+
+/* banner area */
+#banner_area
+#banner_area .container{}
+#banner_area .banner_img{width: 1920px; margin-left: -420px; height: 300px; overflow: hidden; position: relative;}
+#banner_area .banner_img img{width: 100%; top: 50%; transform: var(--center-horizontal); position: absolute;}
+
+/* middle area */
+#middle_area{}
+#middle_area .container{padding: 100px 0;}
+
+.mid_head{text-align: center; margin-bottom: 50px;}
+.mid_head h2{font-size: 30px; line-height: 30px; margin-bottom: 15px; font-weight: 900;}
+.mid_head p{}
+
+.mid_box{text-align: center; font-size: 0;}
+.mid_box .md_box{width: calc(100% / 3); display: inline-block; font-size: 20px; min-height: 200px; border: 2px solid #aaa; padding: 15px;}
+.mid_box .md_box a{display: block; background: #000; color: #fff; padding: 10px 5px; margin-top: 20px; border: 1px solid transparent;}
+.mid_box .md_box a:hover{background: #fff; border: 1px solid #1a1a1a; color: #1a1a1a;}
+
+#main_area{}
+#main_area .container{padding: 50px 0;}
+#main_area main{}
+#main_area main h1{font-size: 50px; line-height: 100%; margin-bottom: 25px;}
+
+
+#bottom_area{}
+#bottom_area .container{padding: 100px 0;}
+
+.bottom_header{text-align: center; margin-bottom: 50px;}
+.bottom_header h2{font-size: 30px; line-height: 30px; margin-bottom: 15px; font-weight: 900;}
+.bottom_header p{}
+
+.bottom_box{text-align: center; font-size: 0;}
+.bottom_box .btm_box{width: calc(100% / 3); display: inline-block; font-size: 20px; min-height: 200px; border: 2px solid #aaa; padding: 15px;}
+.bottom_box .btm_box a{display: block; background: #000; color: #fff; padding: 10px 5px; margin-top: 20px; border: 1px solid z transparent;}
+.bottom_box .btm_box a:hover{background: #fff; border: 1px solid #1a1a1a; color: #1a1a1a;}
+
+/* footer area */
+footer{min-height: 50px; background: #000; padding: 15px 0;}
+.footer_nav{}
+.footer_nav ul{text-align: center;}
+.footer_nav ul li{display: inline-block;}
+.footer_nav ul li a{color: #fff; font-size: 18px; padding: 0 15px; line-height: 50px;}
+
+.footer_nav ul li.active_tab a{font-weight: bold; text-decoration: underline;}
+.footer_nav ul li a:hover{font-weight: bold; text-decoration: underline;}
+
+.copy_right{color: #fff; text-align: center;}
