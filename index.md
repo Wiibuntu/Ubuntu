@@ -23,9 +23,9 @@ In order to select a different item in gumboot you MUST have a gamecube controll
 
 Start by [creating a new post](http://jekyllrb.com/docs/posts/) one of the categories listed in `_config.yml`. It will appear in the navigation on the left once recompiled. Or use the supplied script to make creating pages easier:
 
-```bash
+bash
 ruby bin/jekyll-page "Ubuntu 13 Server.md" ref
-```
+
 
 #### Don't Forget
 
