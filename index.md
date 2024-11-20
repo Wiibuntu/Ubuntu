@@ -3,11 +3,8 @@ layout: default
 title: "Jekyll Docs Template"
 ---
 
-<div class="webpage-snippet">
-  <h2>Webpage Snippet</h2>
-  <p>This is a sample snippet that demonstrates how to embed content on a Jekyll site.</p>
-  <a href="https://github.com/Wiibuntu/Ubuntu-13.10-Wii" target="_blank" rel="noopener">Visit the full webpage</a>
-</div>
+<iframe src="https://github.com/Wiibuntu/Ubuntu-13.10-Wii" width="600" height="400" style="border:none;"></iframe>
+
 
 
 
