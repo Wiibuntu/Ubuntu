@@ -3,7 +3,10 @@ layout: default
 title: "Jekyll Docs Template"
 ---
 
-<iframe src="https://github.com/Wiibuntu/Ubuntu-13.10-Wii" width="600" height="400" style="border:none;"></iframe>
+
+<iframe src="https://github.com/Wiibuntu/Ubuntu-13.10-Wii" width="600" height="450" style="border:0;" allowfullscreen=""
+  loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+</iframe>
 
 
 
