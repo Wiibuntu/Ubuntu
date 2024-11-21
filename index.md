@@ -17,14 +17,11 @@ In order to select a different item in gumboot you MUST have a gamecube controll
 
 
 
-<ul>
-  {% for post in site.posts %}
-    <li>
-      <a href="{{ post.url }}">{{ post.title }}</a>
-      <p>{{ post.date | date: "%B %d, %Y" }}</p>
-    </li>
-  {% endfor %}
-</ul>
+<iframe
+  src="_posts/Ubuntu 13 Server.md_"
+  width="600" height="450" style="border:0;" allowfullscreen=""
+  loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+</iframe>
 
 
 ### Get Started
