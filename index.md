@@ -17,7 +17,7 @@ In order to select a different item in gumboot you MUST have a gamecube controll
 
 
 
-{% include Ubuntu13.md %}
+{% render "Ubuntu13.md" %}
 
 
 
