@@ -18,7 +18,7 @@ In order to select a different item in gumboot you MUST have a gamecube controll
 
 
 <iframe
-  src="_posts/Ubuntu 13 Server.md_"
+  src="_posts/Ubuntu 13 Server.md"
   width="600" height="450" style="border:0;" allowfullscreen=""
   loading="lazy" referrerpolicy="no-referrer-when-downgrade">
 </iframe>
