@@ -17,4 +17,4 @@ In order to select a different item in gumboot you MUST have a gamecube controll
 
 
 
-[More Ubuntu 13 Server Details](./Ubuntu/../ubuntu13.html)
+[More Ubuntu 13 Server Details](./Ubuntu/ubuntu13.html)
