@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simple HTML Text Page</title>
+  <title>Ubuntu 13</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -32,15 +32,23 @@
   <h1>UBUNTU 13 SERVER</h1>
   <a href="https://github.com/Wiibuntu/Ubuntu-13.10-Wii/releases/download/v1.0.0/Wiibuntu13.Release.v1.img" download class="download-btn">Download .img</a>
   <p>This is the Image File for Ubuntu 13 Server PowerPC and it has been modified to boot on the Nintendo Wii.</p>
+    <p>That file will two partitions: a fat32 partition and a ext4 partition. The fat32 partition will contain the Linux loader for the Homebrew Channel.</p>
+    <p>Just flash this image to an SD Card (2GB or more needed!)</p>
+
   
   <img src="img/13s/Screenshot 2024-03-11 120047.png" alt="Ubuntu 13 Login" width="350">
-  <p>Username - ubuntu 
-     Password - ubuntu<p>    
+  <p>Username - ubuntu<p> 
+  <P>Password - ubuntu</P>     
 
   <p>Swapfile has already been setup but is small and can be made bigger if you wish.
 
     Swapfile is needed to even run basic tasks but was kept small in order to keep download size as small as possible.</p>
     <img src="img/13s/Screenshot 2024-03-11 120110.png" alt="Ubuntu 13 Swapfile" width="400">
+    <p></p>
+    <p></p>Its as simple as using the "whiite-ez-wifi-config" file located in "/home/ubuntu" and setting up for wifi!
+    <p></p>If that doesnt work please use the command "sudo nano /etc/network/interfaces" and add the ssid and passkey yourself.
+    <img src="img/13s/Screenshot 2024.png" alt="Ubuntu 13 wifi-config" width="400">
+    <p></p>
     <p>Here's the github page <a href="https://github.com/Wiibuntu/Ubuntu-13.10-Wii" target="_blank">Wiibuntu 13 Github</a>.</p>
   </body>
 </html>

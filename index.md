@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Jekyll Docs Template"
+title: "Wiibuntu Distros"
 ---
 
 
@@ -16,6 +16,15 @@ That will instead load a bootloader known as Gumboot. More on Gumboot [here](htt
 In order to select a different item in gumboot you MUST have a gamecube controller plugged in. But, thankfully it will auto boot in 30 seconds.
 
 
+## Ubuntu 14.04 LTS
+
+Ubuntu Server 14.04 LTS has been designed for the reality of the modern datacentre. It is built for virtualised, cloud and hyperscale infrastructure, either as a host platform or a guest OS. 
+
+It is certified on a wide range of hardware from all major brands and on all the leading public clouds.
+
+[More Ubuntu 14.04 Details](../Ubuntu/ubuntu14.html)
+
+
 ## Ubuntu 13 Server
 
 Ubuntu 13.10 Server is an older EOL OS, sadly no longer supported by us or by ubuntu themselves.
@@ -23,3 +32,5 @@ Ubuntu 13.10 Server is an older EOL OS, sadly no longer supported by us or by ub
 This is a simple and lightweight distro for the Wii, with limited infomration please find out more at the link below.
 
 [More Ubuntu 13 Server Details](../Ubuntu/ubuntu13.html)
+
+

@@ -1,0 +1,596 @@
+#!/bin/bash
+
+#
+# whiite-ez-wifi-config tool
+# Copyright (C) 2009 The GameCube Linux Team
+# Copyright (C) 2009 Albert Herranz
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+
+VERSION="0.1"
+
+BACKTITLE="
+Easy WiFi Configuration Tool $VERSION for whiite-linux"
+
+#
+# Global settings
+#
+
+TOOL=$0
+
+W=68
+H=22
+
+# this is were command error messages will be redirected to
+LOG_TTY=/dev/tty4
+
+INTERFACES=/etc/network/interfaces
+IFACE=wlan0
+
+
+#
+# Global variables
+#
+WLAN_SECURITY_MODE=
+WLAN_SSID=
+WLAN_KEY=
+
+
+#
+# Basic interactive dialogs
+#
+
+delay_dialog()
+{
+	local delay
+	local text
+	local title
+
+	delay=${1:-10}
+	[ $delay -lt 0 ] && delay=0
+	text=${2:-"Waiting..."}
+	title=$3
+
+	local lines
+	local percent
+	local percent_step
+
+	lines=$(echo "$text" | wc -l)
+	lines=$(($lines + 7))
+	[ $lines -gt $H ] && lines=$H
+
+	percent=0
+	percent_step=$((100 / $delay))
+	[ "$(($percent_step * $delay))" != "100" ] && percent_step=$(($percent_step + 1))
+	(
+		i=0
+		while [ $i -lt $delay ]; do
+			percent=$(($percent + $percent_step))
+			echo "$percent"
+			sleep 1
+			i=$(($i + 1))
+		done 
+	) | whiptail --title "$title" --backtitle "$BACKTITLE" \
+		--gauge "$text" $lines $W 0
+}
+
+yesno_dialog()
+{
+	local text
+	local title
+	local defaultno
+
+	text=${1:?"missing text"}
+	title=${2:?"missing title"}
+	defaultno=$3
+
+	local lines
+
+	lines=$(echo "$text" | wc -l)
+	lines=$(($lines + 8))
+	[ $lines -gt $H ] && lines=$H
+
+	whiptail --title "$title" --backtitle "$BACKTITLE" \
+		$defaultno --yesno "$text" $lines $W
+}
+
+continue_dialog()
+{
+	local text
+	local title
+	local defaultno
+
+	text=${1:?"missing text"}
+	title=${2:?"missing title"}
+	defaultno=$3
+
+	text="$text
+
+To continue, please, select Yes.
+To cancel the configuration process, select No."
+
+	yesno_dialog "$text" "$title" $defaultno
+}
+
+msgbox_dialog()
+{
+	local text
+	local title
+
+	text=${1:?"missing text"}
+	title=${2:?"missing title"}
+
+	local lines
+
+	lines=$(echo "$text" | wc -l)
+	lines=$(($lines + 8))
+	[ $lines -gt $H ] && lines=$H
+
+	whiptail --title "$title" --backtitle "$BACKTITLE" \
+		--msgbox "$text" $lines $W
+}
+
+failure_dialog()
+{
+	local text
+	local title
+
+	text=${1:?"missing text"}
+	title=${2:?"missing title"}
+
+	text="$text
+
+To exit the configuration process, select OK."
+
+	msgbox_dialog "$text" "$title"
+
+}
+
+inputbox_dialog()
+{
+	local text
+	local title
+	local outfile
+
+	text=${1:?"missing text"}
+	title=${2:?"missing title"}
+	init=${3:?"missing init"}
+	outfile=${4:?"missing outfile"}
+
+	local lines
+
+	text="$text
+
+To continue, please, select Ok or press Enter.
+To cancel the configuration process, select Cancel."
+
+	lines=$(echo "$text" | wc -l)
+	lines=$(($lines + 8))
+	[ $lines -gt $H ] && lines=$H
+
+	whiptail --title "$title" --backtitle "$BACKTITLE" \
+		--separate-output \
+		--inputbox "$text" $lines $W $init 2> $outfile
+}
+
+
+#
+#
+# Higher level dialogs
+#
+#
+
+#
+#
+#
+wlan_security_mode_dialog()
+{
+	local tmpfile
+
+	WLAN_SECURITY_MODE=
+
+	tmpfile=$(mktemp /tmp/WLAN_SECURITY_MODE.XXXXXX) || return 1
+	if whiptail --title "WLAN Security Model" --backtitle "$BACKTITLE" \
+		--radiolist "Please, select your wireless network security mode." 10 70 3 \
+		WPA-PSK "Wireless Protected Access/Pre-Shared Key" on \
+		WEP-ASCII "Wireless Equivalent Privacy with ASCII key" off \
+		WEP-BIN "Wireless Equivalent Privacy with binary key " off \
+		2> $tmpfile; then
+		WLAN_SECURITY_MODE=$(cat $tmpfile)
+		rm $tmpfile
+		return 0
+	fi
+	return 1
+
+}
+
+#
+#
+#
+wlan_ssid_name_dialog()
+{
+	local tmpfile
+
+	WLAN_SSID=
+
+	text="Please, enter the SSID of your wireless network.
+
+The service set identifier, or SSID, is a name that identifies a particular 802.11 wireless LAN."
+
+	tmpfile=$(mktemp /tmp/WLAN_SSID.XXXXXX) || return 1
+	if inputbox_dialog "$text" "SSID" " " $tmpfile; then
+		WLAN_SSID=$(cat $tmpfile)
+		rm $tmpfile
+		return 0
+	fi
+	return 1
+}
+
+#
+#
+#
+wlan_key_dialog()
+{
+	local tmpfile
+
+	WLAN_KEY=
+
+	text="Please, enter the KEY of your wireless network.
+
+A wireless card uses this key to protect the data transmitted via a 802.11 wireless LAN."
+
+	tmpfile=$(mktemp /tmp/WLAN_SSID.XXXXXX) || return 1
+	if inputbox_dialog "$text" "KEY" " " $tmpfile; then
+		WLAN_KEY=$(cat $tmpfile)
+		rm $tmpfile
+		return 0
+	fi
+	return 1
+}
+
+#
+#
+#
+wlan_config_summary_dialog()
+{
+	local text
+
+	text="Your wireless network card will be configured as follows:
+
+Security: $WLAN_SECURITY_MODE
+SSID    : $WLAN_SSID
+Key     : $WLAN_KEY
+
+Is this correct?"
+
+	yesno_dialog "$text" "WLAN Configuration Summary"
+}
+
+#
+#
+#
+wlan_ifup_dialog()
+{
+	local text
+
+	text="Your wireless network card is now configured.
+
+Do you want to bring up your WiFi connection?"
+
+	yesno_dialog "$text" "WLAN Interface Control"
+}
+
+#
+#
+#
+wlan_check_iface_task()
+{
+	local title
+	local attempts
+	local step
+	local i
+
+	title="WLAN Interface Check"
+
+	if [ ! -r /sys/class/net/$IFACE/operstate ]; then
+		return 1
+	fi
+
+	(
+		attempts=20
+		step=10
+		i=0
+		while [ $i -lt $attempts ]; do
+			echo $(($step + $i))
+			if [ "$(cat /sys/class/net/$IFACE/operstate)" = "up" ]; then
+				break
+			fi
+			i=$(($i + 1))
+			sleep 1
+		done
+	) | whiptail --title "$title" \
+		--backtitle "$BACKTITLE" \
+		--gauge "Checking association ..." 6 $W 0
+	if [ "$(cat /sys/class/net/$IFACE/operstate)" != "up" ]; then
+		return 1
+	fi
+
+	(
+		attempts=3
+		step=40
+		i=0
+		while [ $i -lt $attempts ]; do
+			echo $(($step + $i))
+			if ping -c 2 www.google.com 1>/dev/null 2>/dev/null; then
+				break
+			fi
+			i=$(($i + 1))
+			sleep 1
+		done
+	) | whiptail --title "$title" \
+		--backtitle "$BACKTITLE" \
+		--gauge "Checking IP connectivity ..." 6 $W 0
+
+	echo "100" | whiptail --title "$title" \
+		--backtitle "$BACKTITLE" \
+		--gauge "" 6 $W 0
+
+	if ! ping -c 1 www.google.com 1>/dev/null 2>/dev/null; then
+		return 1
+	fi
+}
+
+#
+#
+#
+configuration_failed_dialog()
+{
+	local text
+
+	text=${1:?"missing text"}
+
+	text="The configuration failed.
+The Epic Failure(TM) happened while $text."
+
+	failure_dialog "$text" "Configuration failed"
+	exit 1
+}
+
+#
+#
+#
+configuration_cancelled_dialog()
+{
+	local text
+
+	text="The configuration was cancelled at your request.
+
+Do you want to start again from the beggining?
+"
+	if yesno_dialog "$text" "Configuration Cancelled" --defaultno; then
+		exec $TOOL
+	fi
+}
+
+#
+#
+#
+welcome_dialog()
+{
+	local text
+
+	text="Welcome to the Easy WiFi Configuration Tool $VERSION for whiite-linux.
+Copyright (C) 2009 The GameCube Linux Team
+Copyright (C) 2009 Albert Herranz
+
+This program will configure your WiFi card to connect to your wireless network. Note that if your wireless network does not support DHCP you will need to manually configure your IP address settings.
+
+This tool may require a USB keyboard to interact with the dialogs.
+
+Continue?
+
+"
+
+	whiptail --backtitle "$BACKTITLE" \
+		--yesno "$text" $H $W
+}
+
+#
+#
+#
+congratulations_dialog()
+{
+	local text
+
+	text="
+CONGRATULATIONS!
+
+You have successfully configured your wireless network connection.
+
+Select Ok to exit."
+
+	msgbox_dialog "$text" "Configuration finished"
+}
+
+#
+#
+#
+congratulations_maybe_dialog()
+{
+	local text
+
+	text="
+You have completed the configuration of your wireless connection, but it doesn't appear to completely work.
+
+Please, check your security mode, SSID and key.
+Also check if your wireless network supports DHCP.
+
+Do you want to start again from the beggining?
+"
+	if yesno_dialog "$text" "Configuration not working" --defaultno; then
+		exec $TOOL
+	fi
+}
+
+
+
+#
+# Tool logic
+#
+
+interfaces_comment_out_iface()
+{
+	local iface=$1
+
+	local tmpfile
+
+	tmpfile=$(mktemp /tmp/comment_out_iface.XXXXXX) || return 1
+	cat $INTERFACES | awk '/^iface/{if(/'"$iface"'/){found=1}else{found=0}}
+/^$|^mapping|^auto|^allow-/{found=0}
+/^auto/{if(/'"$iface"'/){found=1}}
+{if(!found){print}else{print "#"$0}}
+' > $tmpfile
+	mv -f $tmpfile $INTERFACES && chmod 0600 $INTERFACES
+}
+
+interfaces_add_wep_iface()
+{
+	local iface=$1
+	local keypfx=$2
+
+	cat <<EOF >> $INTERFACES
+
+# added by the Easy WiFi Configuration Tool $VERSION
+auto $iface
+iface $iface inet dhcp
+        wireless-essid $WLAN_SSID
+        wireless-key $keypfx$WLAN_KEY
+EOF
+}
+
+interfaces_add_wpapsk_iface()
+{
+	local iface=$1
+
+	cat <<EOF >> $INTERFACES
+
+# added by the Easy WiFi Configuration Tool $VERSION
+auto $iface
+iface $iface inet dhcp
+        wpa-ssid $WLAN_SSID
+        wpa-psk $WLAN_KEY
+        wpa-key-mgmt WPA-PSK
+        wpa-pairwise TKIP CCMP
+        wpa-group TKIP CCMP
+        wpa-proto WPA RSN
+        wpa-ap-scan 1
+        wpa-scan-ssid 1
+EOF
+}
+
+
+# avoid console spam while the tool runs
+dmesg -n 1
+
+if [[ $EUID -ne 0 ]]; then
+	echo "This tool must be run as root." 1>&2
+	exit 1
+fi
+
+# be kind
+if ! welcome_dialog; then
+	exit 1
+fi
+
+if ! wlan_security_mode_dialog; then
+	configuration_cancelled_dialog
+	exit 1
+fi
+
+while [ -z "$WLAN_SSID" ]; do
+	if ! wlan_ssid_name_dialog; then
+		configuration_cancelled_dialog
+		exit 1
+	fi
+done
+
+while [ -z "$WLAN_KEY" ]; do
+	if ! wlan_key_dialog; then
+		configuration_cancelled_dialog
+		exit 1
+	fi
+	if [ -n "$WLAN_KEY" ]; then
+		case "$WLAN_SECURITY_MODE" in
+		WPA-PSK)
+			#
+			if [ ${#WLAN_KEY} -lt 8 ] || [ ${#WLAN_KEY} -gt 63 ]; then
+				msgbox_dialog "The length of an WPA key must be between 8 and 63 characters." "Wrong key length"
+				WLAN_KEY=
+			fi
+			;;
+		WEP-ASCII)
+			#
+			if [ ${#WLAN_KEY} -ne 5 ] && [ ${#WLAN_KEY} -ne 13 ]; then
+				msgbox_dialog "The length of an ASCII key must be 5 characters for 64-bit WEP or 13 characters for 128-bit WEP." "Wrong key length"
+				WLAN_KEY=
+			fi
+			;;
+		WEP-BIN)
+			#
+			if [ ${#WLAN_KEY} -ne 10 ] && [ ${#WLAN_KEY} -ne 26 ]; then
+				msgbox_dialog "The length of a binary key must be 10 hex digits for 64-bit WEP or 26 hex digits for 128-bit WEP." "Wrong key length"
+				WLAN_KEY=
+			fi
+			if echo $WLAN_KEY | egrep -q "[^0-9a-fA-F]+"; then
+				text="Wrong binary key format ($WLAN_KEY).
+
+Examples:
+0123456789                 (64-bit WEP, 10 hex digits)
+0123456789abcdef0123456789 (128-bit WEP, 26 hex digits)."
+				msgbox_dialog "$text" "Wrong key format"
+				WLAN_KEY=
+			fi
+			;;
+		esac
+		
+	fi
+done
+
+if ! wlan_config_summary_dialog; then
+	configuration_cancelled_dialog
+	exit 1
+fi
+
+interfaces_comment_out_iface $IFACE || configuration_failed_dialog "editing $INTERFACES"
+
+case "$WLAN_SECURITY_MODE" in
+WPA-PSK)
+	interfaces_add_wpapsk_iface $IFACE || configuration_failed_dialog "editing $INTERFACES for $WLAN_SECURITY_MODE"
+	;;
+WEP-ASCII)
+	interfaces_add_wep_iface $IFACE s: || configuration_failed_dialog "editing $INTERFACES for $WLAN_SECURITY_MODE"
+	;;
+WEP-BIN)
+	interfaces_add_wep_iface $IFACE || configuration_failed_dialog "editing $INTERFACES for $WLAN_SECURITY_MODE"
+	;;
+esac
+
+if wlan_ifup_dialog; then
+	clear
+	ifdown $IFACE 2> /dev/null
+	killall wpa_supplicant 2> /dev/null
+	iwconfig $IFACE essid XXX
+	ifup $IFACE 1> /dev/null 2> /dev/null &
+	if ! wlan_check_iface_task; then
+		congratulations_maybe_dialog
+	else
+		congratulations_dialog
+	fi
+else
+	congratulations_dialog
+fi
+
