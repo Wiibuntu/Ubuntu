@@ -45,9 +45,11 @@
     <p></p>
   <p></p>Please download the "Whiite-ez-wifi-config" when you download the .img file and you will need to get that file over to your wii. If you cant get the file over to the Linux filesystem, you will have to do "sudo nano /etc/network/interfaces" and add your wifi informantion manually.
   <p></p>If wlan0 gets stuck on DOWN, this is an issue with wpasupplicant. Please downgrade to the .DEB provided. This will allow you to connect to wifi and upgrade to a stable version of wpasupplicant.
+    <p></p>  
+    <p></p>
     <a href="files/14/wpasupplicant_0.7.3-6ubuntu2.4_powerpc.deb" download class="download-btn">wpasupplicant_0.7.3.deb</a>
     <a href="files/14/whiite-ez-wifi-config" download class="download-btn">whiite-ez-wifi-config</a>
-  <h1>Known Issues And Fixes</h1>>
+  <h1>Known Issues And Fixes</h1>
     <p></p>
     <p>-libc6 package is an unstable version, In order to properly install and upgrade things you MUST downgrade libc6 with aptitude to version 2.19-0ubuntu6.</p>
     <p>-More packages happen to be unstable, thankfully aptitude can help you solve that problem and downgrade them (even in batches) just keep requesting a new solution until one includes downgrading the packages causing problems.</p>
