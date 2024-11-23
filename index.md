@@ -16,5 +16,10 @@ That will instead load a bootloader known as Gumboot. More on Gumboot [here](htt
 In order to select a different item in gumboot you MUST have a gamecube controller plugged in. But, thankfully it will auto boot in 30 seconds.
 
 
+## Ubuntu 13 Server
+
+Ubuntu 13.10 Server is an older EOL OS, sadly no longer supported by us or by ubuntu themselves.
+
+This is a simple and lightweight distro for the Wii, with limited infomration please find out more at the link below.
 
 [More Ubuntu 13 Server Details](../Ubuntu/ubuntu13.html)
