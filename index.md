@@ -29,7 +29,7 @@ It is certified on a wide range of hardware from all major brands and on all the
 
 Ubuntu 13.10 Server is an older EOL OS, sadly no longer supported by us or by ubuntu themselves.
 
-This is a simple and lightweight distro for the Wii, with limited infomration please find out more at the link below.
+This is a simple and lightweight distro for the Wii, with limited information please find out more at the link below.
 
 [More Ubuntu 13 Server Details](../Ubuntu/ubuntu13.html)
 
