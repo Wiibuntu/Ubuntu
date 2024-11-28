@@ -44,3 +44,8 @@ Yes, Ubuntu 16.04 LTS is supported until 2026 through Canonical’s Expanded Sec
 [More Ubuntu 16.04 Details](../Ubuntu/ubuntu16.html)
 
 
+Ubuntu 18.04 LTS (Bionic Beaver) was released on 23 April 2018, introducing improved UEFI Secure Boot, broader Kernel Livepatch coverage, GNOME instead of Unity on Ubuntu Desktop, LXD 3.0 and OpenStack Queens.
+
+Ubuntu 18.04 is still supported but this is a custom made version of Ubuntu 18.04 so its not using official sources and may not have any updates.
+
+[More Ubuntu 18.04 Details](../Ubuntu/ubuntu18.html)
