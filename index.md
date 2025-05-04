@@ -15,6 +15,14 @@ You will load up the homebrew channel to see its empty, thats normal. Some new a
 That will instead load a bootloader known as Gumboot. More on Gumboot [here](https://neagix.github.io/gumboot/).
 In order to select a different item in gumboot you MUST have a gamecube controller plugged in. But, thankfully it will auto boot in 30 seconds.
 
+## Ubuntu 16.04 LTS
+
+Ubuntu 16.04 LTS (Xenial Xerus) was released on 21 April 2016 and introduced us to snaps, a more secure app format, with faster and simpler updates, as well as LXD, the pure-container hypervisor and OpenStack Mitaka.
+
+Is Ubuntu 16.04 LTS still supported?
+Yes, Ubuntu 16.04 LTS is supported until 2026 through Canonical’s Expanded Security Maintenance (ESM) product. Xenial entered the ESM period in April 2021, with security patches for five additional years, beyond the five years of standard support.
+
+[More Ubuntu 16.04 Details](../Ubuntu/ubuntu16.html)
 
 ## Ubuntu 14.04 LTS
 
@@ -35,14 +43,6 @@ This is a simple and lightweight distro for the Wii, with limited information pl
 
 
 ## Ubuntu Wii Betas
-
-Ubuntu 16.04 LTS (Xenial Xerus) was released on 21 April 2016 and introduced us to snaps, a more secure app format, with faster and simpler updates, as well as LXD, the pure-container hypervisor and OpenStack Mitaka.
-
-Is Ubuntu 16.04 LTS still supported?
-Yes, Ubuntu 16.04 LTS is supported until 2026 through Canonical’s Expanded Security Maintenance (ESM) product. Xenial entered the ESM period in April 2021, with security patches for five additional years, beyond the five years of standard support.
-
-[More Ubuntu 16.04 Details](../Ubuntu/ubuntu16.html)
-
 
 Ubuntu 18.04 LTS (Bionic Beaver) was released on 23 April 2018, introducing improved UEFI Secure Boot, broader Kernel Livepatch coverage, GNOME instead of Unity on Ubuntu Desktop, LXD 3.0 and OpenStack Queens.
 
