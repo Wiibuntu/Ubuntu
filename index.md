@@ -15,7 +15,7 @@ You will load up the homebrew channel to see its empty, thats normal. Some new a
 That will instead load a bootloader known as Gumboot. More on Gumboot [here](https://neagix.github.io/gumboot/).
 In order to select a different item in gumboot you MUST have a gamecube controller plugged in. But, thankfully it will auto boot in 30 seconds.
 
-## Ubuntu 16.04 LTS
+## Ubuntu 16.04 LTS [NEW KERNEL!]
 
 Ubuntu 16.04 LTS (Xenial Xerus) was released on 21 April 2016 and introduced us to snaps, a more secure app format, with faster and simpler updates, as well as LXD, the pure-container hypervisor and OpenStack Mitaka.
 
